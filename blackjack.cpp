@@ -264,6 +264,8 @@ int main(){
     cout<<"Profit : "<<profit<<"\n";
     cout<<"Lose : "<<losee<<"\n\n\n";
     cout<<"Thank for playing\nI love you all <3\n\n\n";
+    cout<<"\t\tCreated by Nutnai\n";
+    cout<<"\t\t\t27/5/2563";
 
     cin>>c;
     return 0;
