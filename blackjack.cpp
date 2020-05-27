@@ -257,5 +257,6 @@ int main(){
     clear();
     cout<<"Thank for playing\nI love you all <3\n\n\n";
 
+    cin>>c;
     return 0;
 }
