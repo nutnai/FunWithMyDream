@@ -9,6 +9,10 @@ using namespace std;
     bool start;
     bool obbover,meover;
     int winme=0,winobb=0,draw=0;
+    long long money;
+    bool inmoney;
+    long long bet;
+    int ro=1;
 
 int random(){
     int r;
@@ -104,11 +108,40 @@ void showend(){
     cout<<"\nDo you want to remach? (y/n)\n:";
 }
 
+void win(){
+    cout<<"You Win";
+    money+=bet;
+}
+
+void lose(){
+    cout<<"You Lose";
+    money-=bet;
+}
+
+void clear(){
+    system("CLS");
+    cout<<"Money : "<<money<<"\n";
+    cout<<"Round : "<<ro<<"\n----------------\n\n";
+}
+
 int main(){
+    if(!inmoney){
+        cout<<"Please enter the amount\n: ";
+        scanf("%lld",&money);
+        inmoney=true;
+    }
     while(true){
+    if(money==0){
+        break;
+    }
     reset();
     char c;
-
+    do{
+        clear();
+        cout<<"Please enter the amount you wish to wager\n: ";
+        scanf("%lld",&bet);
+    }while(bet>money);
+    clear();
     for(int i=0;i<2;i++){
         turnobb();
         turnme();
@@ -133,12 +166,12 @@ int main(){
             if(meover || obbover)
                 break;
         }
-        system("CLS");
+        clear();
         if(c!='f'&&c!='d'){
             cout<<"\nPlease try again !\n";
         }
     }
-    system("CLS");
+    clear();
     cout<<"Opp's card : ";
     for(auto x:obb)
         cout<<x<<" ";
@@ -149,16 +182,16 @@ int main(){
     cout<<"\nYour Sum = "<<summe;
     cout<<"\n\n\n";
     if(obbover){
-        cout<<"You Win";
+        win();
         winme++;
     }else if(meover){
-        cout<<"You Lose";
+        lose();
         winobb++;
     }else if(summe>sumobb){
-        cout<<"You Win";
+        win();
         winme++;
     }else if(summe<sumobb){
-        cout<<"You Lose";
+        lose();
         winobb++;
     }else {
         cout<<"Draw";
@@ -172,14 +205,15 @@ int main(){
     }while(c!='y'&&c!='n');
     
     if(c=='y'){
-        system("CLS");
+        clear();
+        ro++;
         continue;
     }
     if(c=='n'){
         break;
     }
     }
-    system("CLS");
+    clear();
     cout<<"Thank for playing\nI love you all <3\n\n\n";
 
     return 0;
