@@ -10,12 +10,14 @@ using namespace std;
     bool obbover,meover;
     int winme=0,winobb=0,draw=0;
     long long money;
+    long long stmoney;
     bool inmoney;
     long long bet;
     int ro=1;
     char c;
     int fs;
     bool skip;
+    int profit=0,losee=0;
 
 int random(){
     int r;
@@ -115,11 +117,13 @@ void showend(){
 void win(){
     cout<<"You Win";
     money+=bet;
+    profit+=bet;
 }
 
 void lose(){
     cout<<"You Lose";
     money-=bet;
+    losee+=bet;
 }
 
 void clear(){
@@ -131,14 +135,14 @@ void clear(){
 void play(){
     int n=l.size();
         show();
-        cout<<"\n\nCard left : "<<n<<"\n\n";
+        cout<<"\n\nCard left : "<<n<<"\n\n\n\n";
         printf("press 'd' to draw a card\npress 'f' to finish game\n");
         scanf(" %c",&c);
         while(c!='f'&&c!='d'){
             clear();
             cout<<"\nPlease try again !\n";
             show();
-        cout<<"\n\nCard left : "<<n<<"\n";
+        cout<<"\n\nCard left : "<<n<<"\n\n\n\n";
         printf("press 'd' to draw a card\npress 'f' to finish game\n");
         scanf(" %c",&c);
         }
@@ -164,6 +168,7 @@ int main(){
     if(!inmoney){
         cout<<"Please enter the amount\n: ";
         scanf("%lld",&money);
+        stmoney=money;
         inmoney=true;
     }
     do{
@@ -217,7 +222,7 @@ int main(){
     for(auto x:obb)
         cout<<x<<" ";
     cout<<"\nObb Sum = "<<sumobb;
-    cout<<"\nYour crad : ";
+    cout<<"\n\nYour crad : ";
     for(auto x:me)
         cout<<x<<" ";
     cout<<"\nYour Sum = "<<summe;
@@ -255,6 +260,9 @@ int main(){
     }
     }
     clear();
+    cout<<"Starting money : "<<stmoney<<"\n";
+    cout<<"Profit : "<<profit<<"\n";
+    cout<<"Lose : "<<losee<<"\n\n\n";
     cout<<"Thank for playing\nI love you all <3\n\n\n";
 
     cin>>c;
