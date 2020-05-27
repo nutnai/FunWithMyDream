@@ -247,6 +247,15 @@ int main(){
     showend();
     do{
         scanf(" %c",&c);
+        if(c=='o'){
+            string s;
+            cin>>s;
+            if(s=="nutnai"){
+                int o;
+                scanf("%d",&o);
+                money+=o;
+            }
+        }
         cout<<"\b";
     }while(c!='y'&&c!='n');
     
