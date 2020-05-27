@@ -5,7 +5,7 @@ using namespace std;
     int summe,sumobb;
     list<int> brainobb;
     bool check[12];
-    bool stopme,stopobb;
+    bool stopobb;
     bool start;
     bool obbover,meover;
     int winme=0,winobb=0,draw=0;
@@ -13,6 +13,9 @@ using namespace std;
     bool inmoney;
     long long bet;
     int ro=1;
+    char c;
+    int fs;
+    bool skip;
 
 int random(){
     int r;
@@ -48,13 +51,13 @@ void show(){
             i++;
         }else cout<<x<<" ";
     }
-    cout<<"\nYour crad : ";
+    cout<<"\n\nYour crad : ";
     for(auto x:me)
         cout<<x<<" ";
     cout<<"\nSum = "<<summe;
 }
 
-void kit(){
+void kitobb(){
     if(!stopobb){
         int rob=brainobb.size();
         int p=0;
@@ -75,12 +78,13 @@ void kit(){
             return;
         }
     }
-    if(!stopme){
-        turnme();
+}
+
+void kitme(){
+    turnme();
     if(summe>21){
         meover=true;
         return;
-    }
     }
 }
 
@@ -93,11 +97,11 @@ void reset(){
     brainobb={1,2,3,4,5,6,7,8,9,10,11};
     for(int i=0;i<12;i++)
         check[i]=false;
-    stopme=false;
     stopobb=false;
     start=false;
     obbover=false;
     meover=false;
+    skip=false;
     srand(time(NULL));
 }
 
@@ -105,7 +109,7 @@ void showend(){
     cout<<"\n\n\nWin : "<<winme<<"\n";
     cout<<"Lose : "<<winobb<<"\n";
     cout<<"Draw : "<<draw;
-    cout<<"\nDo you want to remach? (y/n)\n:";
+    cout<<"\n\nDo you want to remach? (y/n)\n:";
 }
 
 void win(){
@@ -124,18 +128,58 @@ void clear(){
     cout<<"Round : "<<ro<<"\n----------------\n\n";
 }
 
+void play(){
+    int n=l.size();
+        show();
+        cout<<"\n\nCard left : "<<n<<"\n\n";
+        printf("press 'd' to draw a card\npress 'f' to finish game\n");
+        scanf(" %c",&c);
+        while(c!='f'&&c!='d'){
+            clear();
+            cout<<"\nPlease try again !\n";
+            show();
+        cout<<"\n\nCard left : "<<n<<"\n";
+        printf("press 'd' to draw a card\npress 'f' to finish game\n");
+        scanf(" %c",&c);
+        }
+
+        if(c=='f'){
+            while(!stopobb){
+                kitobb();
+            }
+            skip=true;
+            return;
+        }
+        if(c=='d'){
+            kitme();
+            if(meover){
+                skip=true;
+                return;
+            }
+        }
+        clear();
+}
+
 int main(){
     if(!inmoney){
         cout<<"Please enter the amount\n: ";
         scanf("%lld",&money);
         inmoney=true;
     }
+    do{
+        system("CLS");
+        cout<<"Do you want to first or second? (f/s)\n: ";
+        scanf(" %c",&c);
+    }while(c!='f'&&c!='s');
+    if(c=='f')
+        fs=1;
+    else fs=2;
+
     while(true){
     if(money==0){
         break;
     }
     reset();
-    char c;
     do{
         clear();
         cout<<"Please enter the amount you wish to wager\n: ";
@@ -149,28 +193,25 @@ int main(){
     }
 
     while(true){
-        int n=l.size();
-        show();
-        cout<<"\n\nCard left : "<<n<<"\n";
-        printf("press 'd' to draw a card\npress 'f' to finish game\n");
-        scanf(" %c",&c);
-        if(c=='f'){
-            stopme=true;
-            while(!stopobb){
-                kit();
-            }
+        if(fs==1){
+        play();
+        if(skip){
             break;
         }
-        if(c=='d'){
-            kit();
-            if(meover || obbover)
+        kitobb();
+        if(obbover){
+            break;
+        }
+        }else {
+            kitobb();
+            if(obbover)
+                break;
+            play();
+            if(skip)
                 break;
         }
-        clear();
-        if(c!='f'&&c!='d'){
-            cout<<"\nPlease try again !\n";
-        }
     }
+    
     clear();
     cout<<"Opp's card : ";
     for(auto x:obb)
